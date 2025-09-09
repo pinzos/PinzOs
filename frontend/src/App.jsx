@@ -1,57 +1,58 @@
-import React, { useState } from "react";
-import { supabase } from "./supabaseClient";
+import { useState } from "react"
+import { supabase } from "./supabaseClient"
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState(null)
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault()
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password,
-    });
-
+      password
+    })
     if (error) {
-      alert("Error: " + error.message);
+      setError(error.message)
     } else {
-      alert("Bienvenido " + data.user.email);
-      console.log("Usuario logueado:", data.user);
+      alert("✅ Login exitoso, bienvenido " + email)
     }
-  };
+  }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-sm bg-white p-6 rounded-xl shadow-md space-y-4"
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <form 
+        onSubmit={handleLogin} 
+        className="bg-white shadow-lg rounded-2xl p-8 w-96"
       >
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
-
+        <h2 className="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
+        
         <input
           type="email"
           placeholder="Correo"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg"
+          className="w-full p-2 border rounded mb-4"
+          required
         />
-
         <input
           type="password"
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg"
+          className="w-full p-2 border rounded mb-4"
+          required
         />
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+        
+        <button 
+          type="submit" 
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
-          Iniciar sesión
+          Entrar
         </button>
       </form>
     </div>
-  );
+  )
 }
