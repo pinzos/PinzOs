@@ -1,54 +1,55 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
-import { useNavigate } from "react-router-dom";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import Card from "../components/Card";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setError("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
     if (error) {
       setError(error.message);
     } else {
-      navigate("/dashboard");
+      alert("¡Inicio de sesión exitoso!");
+      // aquí podrías redirigir al dashboard
+      window.location.href = "/#/dashboard";
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center">PinzOS CRM</h1>
-        {error && <p className="text-red-400 mb-4">{error}</p>}
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <Card>
+        <h1 className="text-2xl font-bold mb-4">Iniciar sesión</h1>
+        {error && <p className="text-red-500 mb-2">{error}</p>}
+        <form onSubmit={handleLogin}>
+          <Input
+            label="Correo electrónico"
             type="email"
-            placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 rounded bg-gray-700 focus:outline-none"
-            required
+            placeholder="ejemplo@correo.com"
           />
-          <input
+          <Input
+            label="Contraseña"
             type="password"
-            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 rounded bg-gray-700 focus:outline-none"
-            required
+            placeholder="********"
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded font-bold"
-          >
-            Iniciar sesión
-          </button>
+          <Button type="submit">Entrar</Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }
-
