@@ -1,39 +1,64 @@
 import React, { useEffect, useState } from 'react'
 
-export default function App() {
+import React from "react";
+
+function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
-      <div className="bg-white p-10 rounded-3xl shadow-xl w-full max-w-lg">
-        <h1 className="text-4xl font-bold text-center text-indigo-700 mb-8">🌟 PinzOS CRM</h1>
-        <form className="space-y-6">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        {/* Logo / título */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-14 h-14 flex items-center justify-center bg-blue-500 text-white rounded-full text-2xl font-bold shadow-md">
+            🚀
+          </div>
+          <h1 className="mt-4 text-2xl font-bold text-gray-800">
+            PinzOS CRM
+          </h1>
+          <p className="text-gray-500">Inicia sesión en tu cuenta</p>
+        </div>
+
+        {/* Formulario */}
+        <form className="space-y-5">
           <div>
-            <label className="block text-gray-700 font-semibold mb-1">Correo electrónico</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Correo electrónico
+            </label>
             <input
               type="email"
               placeholder="ejemplo@correo.com"
-              className="w-full px-5 py-3 border-2 border-indigo-300 rounded-xl focus:border-indigo-600 focus:ring-0"
+              className="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
+
           <div>
-            <label className="block text-gray-700 font-semibold mb-1">Contraseña</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Contraseña
+            </label>
             <input
               type="password"
               placeholder="••••••••"
-              className="w-full px-5 py-3 border-2 border-indigo-300 rounded-xl focus:border-indigo-600 focus:ring-0"
+              className="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
+
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition duration-200"
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors"
           >
             Iniciar sesión
           </button>
         </form>
-        <p className="mt-8 text-center text-gray-500">
-          ¿No tienes cuenta?
-          <a href="#" className="text-indigo-600 hover:underline ml-1">Regístrate</a>
+
+        {/* Enlaces */}
+        <p className="mt-6 text-center text-sm text-gray-600">
+          ¿No tienes cuenta?{" "}
+          <a href="#" className="text-blue-600 hover:underline font-medium">
+            Regístrate
+          </a>
         </p>
       </div>
     </div>
   );
 }
+
+export default App;
