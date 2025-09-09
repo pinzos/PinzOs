@@ -1,64 +1,57 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from "react";
+import { supabase } from "./supabaseClient";
 
-import React from "react";
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-function App() {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      alert("Bienvenido " + data.user.email);
+      console.log("Usuario logueado:", data.user);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
-        {/* Logo / título */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="w-14 h-14 flex items-center justify-center bg-blue-500 text-white rounded-full text-2xl font-bold shadow-md">
-            🚀
-          </div>
-          <h1 className="mt-4 text-2xl font-bold text-gray-800">
-            PinzOS CRM
-          </h1>
-          <p className="text-gray-500">Inicia sesión en tu cuenta</p>
-        </div>
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-sm bg-white p-6 rounded-xl shadow-md space-y-4"
+      >
+        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
 
-        {/* Formulario */}
-        <form className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              placeholder="ejemplo@correo.com"
-              className="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+        <input
+          type="email"
+          placeholder="Correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg"
+        />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              className="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-3 py-2 border rounded-lg"
+        />
 
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-
-        {/* Enlaces */}
-        <p className="mt-6 text-center text-sm text-gray-600">
-          ¿No tienes cuenta?{" "}
-          <a href="#" className="text-blue-600 hover:underline font-medium">
-            Regístrate
-          </a>
-        </p>
-      </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Iniciar sesión
+        </button>
+      </form>
     </div>
   );
 }
-
-export default App;
